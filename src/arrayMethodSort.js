@@ -7,8 +7,11 @@ function applyCustomSort() {
   [].__proto__.sort2 = function (compareFunction) {
     if (typeof compareFunction !== 'function') {
       compareFunction = function (a, b) {
+        a = String(a);
+        b = String(b);
         if (a < b) return -1;
         if (a > b) return 1;
+
         return 0;
       };
     }
