@@ -2,26 +2,20 @@
 
 function applyCustomSort() {
   [].__proto__.sort2 = function (compareFunction) {
-    if (typeof compareFunction !== 'function') {
-      compareFunction = function (a, b) {
-        a = String(a);
-        b = String(b);
+    const defaultCompare = (a, b) => {
+      const aStr = String(a);
+      const bStr = String(b);
 
-        if (a < b) {
-          return -1;
-        }
+      return aStr < bStr ? -1 : aStr > bStr ? 1 : 0;
+    };
 
-        if (a > b) {
-          return 1;
-        }
-
-        return 0;
-      };
-    }
+    const comparator =
+      typeof compareFunction === 'function' ? compareFunction : defaultCompare;
 
     for (let i = 0; i < this.length - 1; i++) {
       for (let j = 0; j < this.length - 1 - i; j++) {
-        if (compareFunction(this[j], this[j + 1]) > 0) {
+        if (comparator(this[j], this[j + 1]) > 0) {
+          // Swap the elements
           const temp = this[j];
 
           this[j] = this[j + 1];
